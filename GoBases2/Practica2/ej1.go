@@ -26,6 +26,6 @@ func (e estudiante) detalle() {
 }
 
 func main() {
-	e1 := estudiante{"Marcio", "Larramendi", 53688299, "19/09/2022"}
+	e1 := estudiante{"Marcio", "Larramendi", 3456789, "19/09/2022"}
 	e1.detalle()
 }
