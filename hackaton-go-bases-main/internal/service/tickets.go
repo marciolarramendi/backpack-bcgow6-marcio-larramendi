@@ -1,5 +1,9 @@
 package service
 
+import (
+	"errors"
+)
+
 type Bookings interface {
 	// Create create a new Ticket
 	Create(t Ticket) (Ticket, error)
@@ -27,11 +31,28 @@ func NewBookings(Tickets []Ticket) Bookings {
 }
 
 func (b *bookings) Create(t Ticket) (Ticket, error) {
+	b.Tickets = append(b.Tickets, t)
 	return Ticket{}, nil
 }
 
 func (b *bookings) Read(id int) (Ticket, error) {
-	return Ticket{}, nil
+	ticketFound := Ticket{}
+	ticketBool := false
+	for i := 0; i < len(b.Tickets); i++ {
+		if i+1 == id {
+			ticketFound = b.Tickets[i]
+			ticketBool = true
+			break
+			//fmt.Println(b.Tickets[i])
+		}
+
+		//fmt.Printf("%d - %v", i+1, b.Tickets[i])
+	}
+	if !ticketBool {
+		return ticketFound, errors.New("ID not found")
+	}
+	//fmt.Println(ticketBool)
+	return ticketFound, nil
 }
 
 func (b *bookings) Update(id int, t Ticket) (Ticket, error) {
