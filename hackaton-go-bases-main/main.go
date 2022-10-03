@@ -25,11 +25,52 @@ func main() {
 	//fmt.Println(tickets)
 	b := service.NewBookings(tickets)
 
-	ticket, err := b.Read(2)
+	ticketAdd, err := b.Create(
+		service.Ticket{
+			Id:          1001,
+			Names:       "Martin Perez",
+			Email:       "martinperez@gmail.com",
+			Destination: "Montevideo",
+			Date:        "20:23",
+			Price:       350})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(ticketAdd)
+
+	ticket, err := b.Read(999)
 	if err != nil {
 		panic(err)
 	}
 	fmt.Println(ticket)
+
+	ticketUpd, err := b.Update(999,
+		service.Ticket{
+			Names:       "Pedro Lopez",
+			Email:       "pedrolopez@gmail.com",
+			Destination: "Buenos Aires",
+			Date:        "15:23",
+			Price:       450})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(ticketUpd)
+
+	ticketDel, err := b.Delete(3)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(ticketDel)
+
+	//fmt.Println(b)
+
+	// ticketAdd, err := b.Create(service.Ticket{1001, "Martin Perez", "martinp@gmail.com", "Montevideo", "18:19", 1400})
+	// if err != nil {
+	// 	panic(err)
+	// }
+
+	// fmt.Println(ticketAdd)
+	// fmt.Println(b)
 
 	// records := readCsvFile("tickets.csv")
 	// fmt.Println(records[1])

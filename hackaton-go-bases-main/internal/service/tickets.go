@@ -31,34 +31,60 @@ func NewBookings(Tickets []Ticket) Bookings {
 }
 
 func (b *bookings) Create(t Ticket) (Ticket, error) {
-	b.Tickets = append(b.Tickets, t)
-	return Ticket{}, nil
+	indexPosition, err := b.GetIndexPosition(t.Id)
+	if err != nil {
+		b.Tickets = append(b.Tickets, t)
+		//filepath.Write(b.Tickets)
+		return t, nil
+	}
+	ticketFound := b.Tickets[indexPosition]
+	return ticketFound, errors.New("Ya hay un ticket con ese ID")
 }
 
 func (b *bookings) Read(id int) (Ticket, error) {
-	ticketFound := Ticket{}
-	ticketBool := false
-	for i := 0; i < len(b.Tickets); i++ {
-		if i+1 == id {
-			ticketFound = b.Tickets[i]
-			ticketBool = true
-			break
-			//fmt.Println(b.Tickets[i])
-		}
-
-		//fmt.Printf("%d - %v", i+1, b.Tickets[i])
+	indexPosition, err := b.GetIndexPosition(id)
+	if err != nil {
+		return Ticket{}, err
 	}
-	if !ticketBool {
-		return ticketFound, errors.New("ID not found")
-	}
-	//fmt.Println(ticketBool)
+	ticketFound := b.Tickets[indexPosition]
 	return ticketFound, nil
 }
 
 func (b *bookings) Update(id int, t Ticket) (Ticket, error) {
-	return Ticket{}, nil
+	indexPosition, err := b.GetIndexPosition(id)
+	if err != nil {
+		return Ticket{}, err
+	}
+	ticketToUpd := b.Tickets[indexPosition]
+	ticketToUpd.Names = t.Names
+	ticketToUpd.Email = t.Email
+	ticketToUpd.Destination = t.Destination
+	ticketToUpd.Date = t.Date
+	ticketToUpd.Price = t.Price
+	return ticketToUpd, nil
 }
 
 func (b *bookings) Delete(id int) (int, error) {
-	return 0, nil
+	indexPosition, err := b.GetIndexPosition(id)
+	if err != nil {
+		return 0, err
+	}
+	b.Tickets = append(b.Tickets[:indexPosition], b.Tickets[indexPosition+1:]...)
+	return id, nil
+}
+
+func (b *bookings) GetIndexPosition(id int) (int, error) {
+	ticketBool := false
+	var indexPosition int
+	for i := 0; i < len(b.Tickets); i++ {
+		if b.Tickets[i].Id == id {
+			ticketBool = true
+			indexPosition = i
+			break
+		}
+	}
+	if !ticketBool {
+		return 0, errors.New("ID not found")
+	}
+	return indexPosition, nil
 }

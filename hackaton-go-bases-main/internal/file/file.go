@@ -29,13 +29,41 @@ func (f *File) Read() ([]service.Ticket, error) {
 	for i := 0; i < len(records); i++ {
 		id, _ := strconv.Atoi(records[i][0])
 		precio, _ := strconv.Atoi(records[i][5])
-		arrayTickets = append(arrayTickets, service.Ticket{id, records[i][1], records[i][2], records[i][3], records[i][4], precio})
+		arrayTickets = append(arrayTickets, service.Ticket{
+			Id:          id,
+			Names:       records[i][1],
+			Email:       records[i][2],
+			Destination: records[i][3],
+			Date:        records[i][4],
+			Price:       precio})
 	}
 
 	return arrayTickets, nil
 
 }
 
-func (f *File) Write(service.Ticket) error {
+func (f *File) Write() error {
+	//fmt.Println(newFile)
+	// //records := service.Ticket
+	// file, err := os.OpenFile("records.csv", os.O_APPEND|os.O_CREATE, 0666)
+	// //file, err := os.Open("records.csv")
+	// defer file.Close()
+	// if err != nil {
+	// 	log.Fatalln("failed to open file", err)
+	// }
+	// w := csv.NewWriter(file)
+	// defer w.Flush()
+
+	// w := csv.NewWriter(f)
+	// err = w.WriteAll(records) // calls Flush internally
+
+	// // Using Write
+	// for _, record := range records {
+	// 	row := []string{record.ID, strconv.Itoa(record.Age)}
+	// 	if err := w.Write(row); err != nil {
+	// 		log.Fatalln("error writing record to file", err)
+	// 	}
+	// }
+
 	return nil
 }
