@@ -1,0 +1,23 @@
+[
+    {
+        "id": 1,
+        "nombre": "Marcio",
+        "apellido": "Larra",
+        "email": "larramendimarcio@gmail.com",
+        "edad": 27,
+        "altura": 171,
+        "activo": true,
+        "fechacreacion": "03/10/2022"
+    },
+    {
+        "id": 2,
+        "nombre": "Martin",
+        "apellido": "Perez",
+        "email": "martinperez@gmail.com",
+        "edad": 25,
+        "altura": 175,
+        "activo": true,
+        "fechacreacion": "03/10/2022"
+    }
+]
+  
