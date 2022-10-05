@@ -24,6 +24,8 @@ type Repository interface {
 	Store(id int, nombre, apellido, email string, edad, altura int, activo bool, fechacreacion string) (Usuario, error)
 	LastID() (int, error)
 	Update(id int, nombre, apellido, email string, edad, altura int, activo bool, fechacreacion string) (Usuario, error)
+	PartialUpdate(id int, apellido string, edad int) (Usuario, error)
+	Delete(id int) error
 }
 
 type repository struct{} //struct implementa los metodos de la interfaz
@@ -58,7 +60,40 @@ func (r *repository) Update(id int, nombre, apellido, email string, edad, altura
 		}
 	}
 	if !updated {
-		return Usuario{}, fmt.Errorf("Producto %d no encontrado", id)
+		return Usuario{}, fmt.Errorf("Usuario %d no encontrado", id)
 	}
 	return u, nil
+}
+
+func (r *repository) PartialUpdate(id int, apellido string, edad int) (Usuario, error) {
+	updated := false
+	var index int
+	for i := range usuarios {
+		if usuarios[i].ID == id {
+			updated = true
+			index = i
+			usuarios[i].Apellido = apellido
+			usuarios[i].Edad = edad
+		}
+	}
+	if !updated {
+		return Usuario{}, fmt.Errorf("Usuario %d no encontrado", id)
+	}
+	return usuarios[index], nil
+}
+
+func (r *repository) Delete(id int) error {
+	deleted := false
+	var index int
+	for i := range usuarios {
+		if usuarios[i].ID == id {
+			index = i
+			deleted = true
+		}
+	}
+	if !deleted {
+		return fmt.Errorf("Usuario %d no encontrado", id)
+	}
+	usuarios = append(usuarios[:index], usuarios[index+1:]...)
+	return nil
 }

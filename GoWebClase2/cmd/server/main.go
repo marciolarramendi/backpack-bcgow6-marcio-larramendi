@@ -18,5 +18,7 @@ func main() {
 	ur.POST("/", u.Store())
 	ur.GET("/", u.GetAll())
 	ur.PUT("/:id", u.Update())
+	ur.PATCH("/:id", u.PartialUpdate())
+	ur.DELETE("/:id", u.Delete())
 	r.Run()
 }
