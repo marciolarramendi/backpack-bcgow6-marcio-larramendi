@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "nombre": "Martin",
+    "apellido": "Lopez",
+    "email": "martinlopez@gmail.com",
+    "edad": 23,
+    "altura": 165,
+    "activo": false,
+    "fechacreacion": ""
+  },
+  {
+    "id": 2,
+    "nombre": "Martin",
+    "apellido": "Lopez",
+    "email": "martinlopez@gmail.com",
+    "edad": 23,
+    "altura": 165,
+    "activo": false,
+    "fechacreacion": ""
+  },
+  {
+    "id": 3,
+    "nombre": "Martin",
+    "apellido": "Lopez",
+    "email": "martinlopez@gmail.com",
+    "edad": 23,
+    "altura": 165,
+    "activo": false,
+    "fechacreacion": ""
+  },
+  {
+    "id": 4,
+    "nombre": "Martin",
+    "apellido": "Lopez",
+    "email": "martinlopez@gmail.com",
+    "edad": 23,
+    "altura": 165,
+    "activo": false,
+    "fechacreacion": ""
+  },
+  {
+    "id": 5,
+    "nombre": "Martin",
+    "apellido": "Lopez",
+    "email": "martinlopez@gmail.com",
+    "edad": 23,
+    "altura": 165,
+    "activo": false,
+    "fechacreacion": ""
+  }
+]
