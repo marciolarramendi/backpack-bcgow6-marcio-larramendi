@@ -2,24 +2,41 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
+	"fmt"
 	"net/http"
 	"os"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 )
 
-var usuarios = getUsers()
+var (
+	usuarios = getUsers()
+	token    = "asfcb1245drrt433qyt57"
+)
 
 type usuario struct {
 	ID            int    `json:"id"`
-	Nombre        string `json:"nombre"`
-	Apellido      string `json:"apellido"`
-	Email         string `json:"email"`
-	Edad          int    `json:"edad"`
-	Altura        int    `json:"altura"`
-	Activo        bool   `json:"activo"`
-	FechaCreacion string `json:"fechacreacion"`
+	Nombre        string `json:"nombre" binding:"required"`
+	Apellido      string `json:"apellido" binding:"required"`
+	Email         string `json:"email" binding:"required"`
+	Edad          int    `json:"edad" binding:"required"`
+	Altura        int    `json:"altura" binding:"required"`
+	Activo        bool   `json:"activo" binding:"required"`
+	FechaCreacion string `json:"fechacreacion" binding:"required"`
+}
+
+func newID() int {
+	var maxID int = 0
+	for _, value := range usuarios {
+		if value.ID > maxID {
+			maxID = value.ID
+		}
+	}
+	//maxID++
+	return maxID
 }
 
 func getUsers() []usuario {
@@ -77,6 +94,47 @@ func GetByID(c *gin.Context) {
 	}
 }
 
+func validateToken(c *gin.Context) {
+	tokenRequest := c.GetHeader("token")
+	if tokenRequest != token || tokenRequest == "" {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "no tiene permisos para realizar la petición solicitada"})
+		c.Abort()
+	}
+	c.Next()
+}
+
+func AddUser() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var req usuario
+		if err := c.ShouldBindJSON(&req); err != nil {
+			var ve validator.ValidationErrors
+			if errors.As(err, &ve) {
+				result := ""
+				if len(ve) > 1 {
+					result += fmt.Sprintf("Los campos ")
+					for i, field := range ve {
+						if i != len(ve)-1 && i == 0 {
+							result += fmt.Sprintf("%s", field.Field())
+						} else if i != len(ve)-1 && i > 0 {
+							result += fmt.Sprintf(", %s", field.Field())
+						} else {
+							result += fmt.Sprintf(" y %s", field.Field())
+						}
+					}
+					result += fmt.Sprintf(" son requeridos")
+				} else {
+					result += fmt.Sprintf("El campo %s es requerido", ve[0].Field())
+				}
+				c.JSON(400, result)
+			}
+			return
+		}
+		req.ID = newID()
+		usuarios = append(usuarios, req)
+		c.JSON(http.StatusOK, req)
+	}
+}
+
 func main() {
 	router := gin.Default()
 
@@ -89,6 +147,7 @@ func main() {
 	router.GET("/users", GetAll)
 	router.GET("/users/", GetAllWithFilters)
 	router.GET("/users/:id", GetByID)
+	router.POST("/users/add", validateToken, AddUser())
 
 	router.Run()
 }
