@@ -2,6 +2,7 @@ package service
 
 import (
 	"errors"
+	"path/filepath"
 )
 
 type Bookings interface {
@@ -34,7 +35,7 @@ func (b *bookings) Create(t Ticket) (Ticket, error) {
 	indexPosition, err := b.GetIndexPosition(t.Id)
 	if err != nil {
 		b.Tickets = append(b.Tickets, t)
-		//filepath.Write(b.Tickets)
+		filepath.Write(b.Tickets)
 		return t, nil
 	}
 	ticketFound := b.Tickets[indexPosition]

@@ -2,6 +2,7 @@ package file
 
 import (
 	"encoding/csv"
+	"encoding/json"
 	"hackaton-go-bases-main/internal/service"
 	"os"
 	"strconv"
@@ -43,27 +44,31 @@ func (f *File) Read() ([]service.Ticket, error) {
 }
 
 func (f *File) Write() error {
-	//fmt.Println(newFile)
-	// //records := service.Ticket
-	// file, err := os.OpenFile("records.csv", os.O_APPEND|os.O_CREATE, 0666)
-	// //file, err := os.Open("records.csv")
-	// defer file.Close()
-	// if err != nil {
-	// 	log.Fatalln("failed to open file", err)
-	// }
-	// w := csv.NewWriter(file)
-	// defer w.Flush()
-
-	// w := csv.NewWriter(f)
-	// err = w.WriteAll(records) // calls Flush internally
-
-	// // Using Write
-	// for _, record := range records {
-	// 	row := []string{record.ID, strconv.Itoa(record.Age)}
-	// 	if err := w.Write(row); err != nil {
-	// 		log.Fatalln("error writing record to file", err)
-	// 	}
-	// }
-
-	return nil
+	fileData, err := json.MarshalIndent(data, "", "  ")
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(f.Path, fileData, 0644)
 }
+
+//fmt.Println(newFile)
+// //records := service.Ticket
+// file, err := os.OpenFile("records.csv", os.O_APPEND|os.O_CREATE, 0666)
+// //file, err := os.Open("records.csv")
+// defer file.Close()
+// if err != nil {
+// 	log.Fatalln("failed to open file", err)
+// }
+// w := csv.NewWriter(file)
+// defer w.Flush()
+
+// w := csv.NewWriter(f)
+// err = w.WriteAll(records) // calls Flush internally
+
+// // Using Write
+// for _, record := range records {
+// 	row := []string{record.ID, strconv.Itoa(record.Age)}
+// 	if err := w.Write(row); err != nil {
+// 		log.Fatalln("error writing record to file", err)
+// 	}
+// }

@@ -6,6 +6,8 @@ import (
 	"hackaton-go-bases-main/internal/service"
 )
 
+var filepath = file.File{Path: "./tickets.csv"}
+
 func main() {
 	defer func() {
 		err := recover()
@@ -15,7 +17,7 @@ func main() {
 		}
 	}()
 
-	filepath := file.File{Path: "./tickets.csv"}
+	//filepath := file.File{Path: "./tickets.csv"}
 	var tickets []service.Ticket
 	// Funcion para obtener tickets del archivo csv
 	tickets, err := filepath.Read()
