@@ -1,0 +1,36 @@
+Ejercicio 1:
+¿Cuáles son las diferencias entre White Box y Black Box? 
+
+La principal diferencia entre el BBT y WBT es el conocimiento que tiene sobre la aplicacion quien ejecuta las pruebas.
+En cuánto al BBT, la estructura diseño o funcionamiento interno de la aplicación es completamente desconocido para quien ejecuta los test. Se utiliza para validar
+que el software cumpla con los requerimientos, controles de performance, usabilidad y escalabilidad. Las pruebas son ejecutadas desde una perspectiva de usuario final.
+
+Por el lado del WBT, quien ejecuta las pruebas conoce el código y se centran en los procedimientos que debe realizar el software. Se utiliza para probar
+el flujo, seguridad y estructura del codigo. Ejemplo: Test unitarios (prueba de metodos, funciones y flujo de datos).
+
+
+Ejercicio 2
+¿Qué es un test funcional?
+
+Son los test que validan el comportamiento funcional del software, se basan en la entrada y salida del software, comprobando que la respuesta ante cada escenario
+coincida con lo esperado. Un ejemplo podria ser validar que si ingreso un string en un campo int me devuelva un "campo invalido".
+
+
+Ejercicio 3
+¿Qué es un Test de Integración?
+
+Son los test que prueban la correcta comunicacion entre distintos modulos de la aplicacion. Prueban que funcionen correctamente cuando trabajan en conjunto y que 
+el resultado su interacción sea el esperado.
+
+
+Ejercicio 4
+Indicar las dimensiones de calidad prioritarias en MELI.
+
+Las dimensiones de calidad prioritarias para meli son:
+
+Funcionalidad - Funcionamiento correcto y completo
+Rendimiento - Buena utilizacion de recursos y buen rendimiento en tiempos de ejecución
+Fiabilidad - Buena disponibilidad, tolerancia a fallos y capacidad de recuperacion ante los mismos
+Seguridad - Software seguro, integro, robusto y confiable
+Mantenibilidad - Modularidad, Reusabilidad, facil de modificar y probar.
+
