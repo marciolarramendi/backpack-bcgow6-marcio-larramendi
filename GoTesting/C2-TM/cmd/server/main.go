@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"github.com/marciolarramendi/backpack-bcgow6-marcio-larramendi/GoTesting/C2-TM/cmd/server/handler"
@@ -24,5 +26,8 @@ func main() {
 	ur.PUT("/:id", u.ValidateToken(), u.Update())
 	ur.PATCH("/:id", u.ValidateToken(), u.PartialUpdate())
 	ur.DELETE("/:id", u.ValidateToken(), u.Delete())
-	r.Run()
+	err := r.Run()
+	if err != nil {
+		fmt.Println(err)
+	}
 }
