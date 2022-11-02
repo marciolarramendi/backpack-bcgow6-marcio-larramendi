@@ -1,0 +1,85 @@
+PARTE 1
+
+Seleccionar el nombre, el puesto y la localidad de los departamentos donde trabajan los vendedores.
+
+SELECT CONCAT(e.nombre, " ", e.apellido) AS nombre_completo, e.puesto, d.localidad FROM empleado e JOIN departamento d ON e.depto_nro = d.depto_nro WHERE puesto = "Vendedor"
+
+Visualizar los departamentos con más de cinco empleados.
+
+SELECT nombre_depto, COUNT(*) as total_empledos FROM departamento d JOIN empleado e ON d.depto_nro = e.depto_nro GROUP BY nombre_depto HAVING COUNT(*) > 5
+
+Mostrar el nombre, salario y nombre del departamento de los empleados que tengan el mismo puesto que ‘Mito Barchuk’.
+
+SELECT CONCAT(e.nombre, " ", e.apellido) AS nombre_completo, e.salario, d.nombre_depto FROM departamento d JOIN empleado e ON d.depto_nro = e.depto_nro WHERE e.puesto = (SELECT puesto FROM empleado WHERE nombre = "Mito" AND apellido = "Barchuk")
+
+Mostrar los datos de los empleados que trabajan en el departamento de contabilidad, ordenados por nombre.
+
+SELECT * FROM empleado WHERE depto_nro = (SELECT depto_nro FROM departamento WHERE nombre_depto = "Contabilidad") ORDER BY nombre, apellido
+
+Mostrar el nombre del empleado que tiene el salario más bajo.
+
+SELECT CONCAT(nombre, " ", apellido) as nombre_completo FROM empleado ORDER BY salario LIMIT 1
+
+Mostrar los datos del empleado que tiene el salario más alto en el departamento de ‘Ventas’.
+
+SELECT CONCAT(nombre, " ", apellido) as nombre_completo FROM empleado WHERE depto_nro = (SELECT depto_nro FROM departamento WHERE nombre_depto = "Ventas") ORDER BY salario DESC LIMIT 1
+
+
+
+PARTE 2
+
+Listar los datos de los autores.
+
+SELECT * FROM autor
+
+Listar nombre y edad de los estudiantes
+
+SELECT CONCAT(nombre, " ", apellido) as nombre_completo, edad FROM estudiante
+
+¿Qué estudiantes pertenecen a la carrera informática?
+
+SELECT * FROM estudiante WHERE carrera = "informática"
+
+¿Qué autores son de nacionalidad francesa o italiana?
+
+SELECT * FROM autor WHERE nacionalidad IN ('francesa', 'italiana')
+
+¿Qué libros no son del área de internet?
+
+SELECT * FROM libro WHERE area <> "internet"
+
+Listar los libros de la editorial Salamandra.
+
+SELECT * FROM libro WHERE editorial = "Salamandra"
+
+Listar los datos de los estudiantes cuya edad es mayor al promedio.
+
+SELECT * FROM estudiante WHERE edad > (SELECT AVG(edad) FROM estudiante)
+
+Listar los nombres de los estudiantes cuyo apellido comience con la letra G.
+
+SELECT nombre FROM estudiante WHERE apellido LIKE 'G%'
+
+Listar los autores del libro “El Universo: Guía de viaje”. (Se debe listar solamente los nombres).
+
+SELECT nombre FROM autor a JOIN libroautor la ON a.idautor = la.idautor WHERE idlibro = (SELECT idlibro FROM libro WHERE titulo = "El Universo: Guía de viaje") GROUP BY nombre
+
+¿Qué libros se prestaron al lector “Filippo Galli”?
+
+SELECT * FROM libro WHERE idlibro IN (SELECT idlibro FROM prestamo p JOIN estudiante e ON p.idlector = e.idlector WHERE nombre = "Filippo" and apellido = "Galli" GROUP BY idlibro)
+
+Listar el nombre del estudiante de menor edad.
+
+SELECT * FROM estudiante ORDER BY edad LIMIT 1
+
+Listar nombres de los estudiantes a los que se prestaron libros de Base de Datos.
+
+SELECT CONCAT(nombre, " ", apellido) as nombre_completo FROM estudiante where idlector IN (SELECT idlector FROM prestamo WHERE idlibro IN (SELECT idlibro FROM libro WHERE area = "Base de Datos") GROUP BY idlector)
+
+Listar los libros que pertenecen a la autora J.K. Rowling.
+
+SELECT * FROM libro WHERE idlibro IN (SELECT idlibro FROM libroautor WHERE idautor = (SELECT idautor FROM autor WHERE nombre = "J.K. Rowling"))
+
+Listar títulos de los libros que debían devolverse el 16/07/2021.
+
+SELECT titulo FROM libro where idlibro IN (SELECT idlibro FROM prestamo WHERE fechadevolucion = "2021-07-16")
